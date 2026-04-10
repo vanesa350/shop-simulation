@@ -39,7 +39,6 @@ def init_db():
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
 
-    # Create the products table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS products (
             id TEXT PRIMARY KEY,
@@ -49,7 +48,6 @@ def init_db():
         )
     ''')
 
-    # NEW: Create the purchases table for user history
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS purchases (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -61,7 +59,6 @@ def init_db():
         )
     ''')
 
-    # Insert initial products if empty
     cursor.execute("SELECT COUNT(*) FROM products")
     if cursor.fetchone()[0] == 0:
         for p in initial_products:
