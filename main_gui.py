@@ -23,7 +23,7 @@ from login_widget import show_login
 class GUI:
     def __init__(self, root):
         self.root = root
-        self.current_user = None # NEW: Store the logged-in username
+        self.current_user = None
         
         self.root.withdraw() 
         self.root.title("Small internet store simulation")
@@ -34,7 +34,7 @@ class GUI:
 
     def on_login_success(self, username):
         print("Logged in as", username)
-        self.current_user = username # Save the username for history logging
+        self.current_user = username
         
         self.build_ui()
         self.update_list()
@@ -57,8 +57,6 @@ class GUI:
         tk.Button(frame, text="Add to cart", command=self.add_to_cart, width=18).grid(row=2, column=0, pady=6)
         tk.Button(frame, text="Check your cart", command=self.view_cart, width=18).grid(row=2, column=1, pady=6)
         tk.Button(frame, text="Purchase", command=self.checkout, width=18).grid(row=2, column=2, pady=6)
-        
-        # NEW: Button to view history
         tk.Button(frame, text="Purchase History", command=self.view_history, width=18).grid(row=3, column=1, pady=0)
 
         self.status_label = tk.Label(self.root, text="", anchor='w')
@@ -123,12 +121,10 @@ class GUI:
             messagebox.showwarning("Warning", "Cart is empty")
             return
         try:
-            # Update database via API and log history
             for pid, qty in list(self.cart.items.items()):
                 prod = StoreAPI.get_product(pid)
                 if prod:
                     StoreAPI.reduce_stock(pid, qty)
-                    # NEW: Log to history
                     total_price = prod['price'] * qty
                     StoreAPI.log_purchase(self.current_user, prod['name'], qty, total_price)
                 
@@ -141,7 +137,6 @@ class GUI:
         except Exception as e:
             messagebox.showerror("Error", f"Unknown error: {e}")
 
-    # NEW: Fetch and display history
     def view_history(self):
         history = StoreAPI.get_user_history(self.current_user)
         if not history:
@@ -150,11 +145,9 @@ class GUI:
             
         lines = [f"History for {self.current_user}:", "-" * 30]
         for item in history:
-            # Format the timestamp slightly to look cleaner
             date = item['timestamp'].split('.')[0] 
             lines.append(f"[{date}] {item['product_name']} (x{item['qty']}) - {item['total_price']:.2f}€")
             
-        # Join lines and display in a message box
         messagebox.showinfo("Purchase History", "\n".join(lines))
 
 if __name__ == "__main__":
