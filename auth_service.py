@@ -16,7 +16,6 @@ specific language governing permissions and limitations
 under the License. '''
 from user_repository import UserRepository
 from password_validator import validate_password
-
 class AuthService:
     def __init__(self, repo: UserRepository = None):
         self.repo = repo or UserRepository()
