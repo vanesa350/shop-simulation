@@ -64,8 +64,6 @@ class StoreAPI:
         cursor.execute("UPDATE products SET stock=? WHERE id=?", (new_stock, str(product_id)))
         conn.commit()
         conn.close()
-
-    # NEW: Log a purchase to the database
     @staticmethod
     def log_purchase(username, product_name, qty, total_price):
         conn = StoreAPI._get_connection()
@@ -76,8 +74,6 @@ class StoreAPI:
         ''', (username, product_name, qty, total_price))
         conn.commit()
         conn.close()
-
-    # NEW: Get purchase history for a specific user
     @staticmethod
     def get_user_history(username):
         conn = StoreAPI._get_connection()
