@@ -1,5 +1,7 @@
 # shop-simulation
-Pielaides darbs programmēšanā:    Atver mapi ar programmu;
+Pielaides darbs programmēšanā:    
+
+Atver mapi ar programmu;
 Atver data.py(vienu reizi), tas izveidos mapi /data, ģenerēs atslēgas failu un sagatavos šifrēto produktu failu, un izveidos store.db datubāzes failu;
 Atver main_gui.py ar dubultklikšķi vai terminālā ievadi python main_gui.py
 Ievadi “Username” un “Password”, ja pirmo reizi ej programmā, pēc ievadīšanas spied “Register”, un tad “Login”. Ja nav pirmo reizi, ievadi datus un tad var uzreiz spiest “Login”.
