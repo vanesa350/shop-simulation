@@ -65,7 +65,9 @@ class GUI:
     def update_list(self):
         self.listbox.delete(0, tk.END)
         for p in StoreAPI.get_all_products():
-            self.listbox.insert(tk.END, f"{p['id']} | {p['name']} | Price: {p['price']:.2f}€ | In stock: {p['stock']}")
+            reserved = self.cart.items.get(str(p['id']), 0)
+            available = p['stock'] - reserved
+            self.listbox.insert(tk.END, f"{p['id']} | {p['name']} | Price: {p['price']:.2f}€ | In stock: {available}")
 
     def add_to_cart(self):
         sel = self.listbox.curselection()
@@ -95,6 +97,7 @@ class GUI:
         try: 
             self.cart.add(product_id, qty)
             self.status_label.config(text=f"Added: {prod['name']} x{qty}")
+            self.update_list()
         except ValueError as e:
             messagebox.showerror("Error", str(e))
 
